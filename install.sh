@@ -27,7 +27,7 @@ pause() {
 echo
 echo -e "${red}本脚本为2022-11-1存档${none}"
 echo -e "最新版本 ${cyan}https://github.com/crazypeace/v2ray_wss${none}"
-echo -e "有问题加群 ${cyan}https://t.me/+D8aqonnCR3s1NTRl${none}"
+echo -e "有问题加群 ${cyan}https://t.me/+ISuvkzFGZPBhMzE1${none}"
 echo "----------------------------------------------------------------"
 echo -e "$yellow此脚本仅兼容于Debian 10+系统. 如果你的系统不符合,请Ctrl+C退出脚本$none"
 echo "本脚本支持带参数执行, 在参数中输入域名, 网络栈, UUID, path. 详见GitHub."
@@ -95,7 +95,7 @@ echo
 echo -e "$yellow安装Caddy最新版本$none"
 echo "----------------------------------------------------------------"
 sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
-curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg --yes
 curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
 sudo apt update
 sudo apt install caddy
@@ -212,11 +212,14 @@ if [[ -z $netstack ]]; then
 
     # 本机 IP
     if [[ $netstack == "4" ]]; then
-        ip=$(curl -4 -s https://api.myip.la)
-    elif [[ $netstack == "6" ]]; then 
-        ip=$(curl -6 -s https://api.myip.la)
+        # ip=$(curl -4s https://api.myip.la)
+        ip=$(curl -4s https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
+    elif [[ $netstack == "6" ]]; then     
+        # ip=$(curl -6s https://api.myip.la)
+        ip=$(curl -6s https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
     else
-        ip=$(curl -s https://api.myip.la)
+        # ip=$(curl -s https://api.myip.la)
+        ip=$(curl -s https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
     fi
 
     if [[ $domain_resolve != $ip ]]; then
@@ -597,7 +600,7 @@ elif  [[ $netstack == "4" ]]; then
     echo
     echo -e "$yellow这是一个 IPv4 小鸡，用 WARP 创建 IPv6 出站$none"
     echo -e "有些热门小鸡用原生的IPv4出站访问Google需要通过人机验证, 可以通过修改config.json指定google流量走WARP的IPv6出站解决"
-    echo -e "群组: ${cyan} https://t.me/+D8aqonnCR3s1NTRl ${none}"
+    echo -e "群组: ${cyan} https://t.me/+ISuvkzFGZPBhMzE1 ${none}"
     echo -e "教程: ${cyan} https://zelikk.blogspot.com/2022/03/racknerd-v2ray-cloudflare-warp--ipv6-google-domainstrategy-outboundtag-routing.html ${none}"
     echo -e "视频: ${cyan} https://youtu.be/Yvvm4IlouEk ${none}"
     echo "----------------------------------------------------------------"
